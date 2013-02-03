@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+  your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
+  improve your experience.</p>
+<![endif]-->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+  <script src="js/plugins.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    $(ready);
+
+    function ready() {
+      var client = new TestClient();
+
+      $('#connect').click(function() {
+        client.connect($('#url').val());
+      });
+
+      $('#disconnect').click(function() {
+        client.disconnect();
+      });
+
+      $('#register').click(function() {
+        client.register($('#nickname').val(), $('#email').val(), $('#password').val());
+      });
+
+      $('#login').click(function() {
+        client.login($('#email').val(), $('#password').val());
+      });
+
+      $('#create-game').click(function() {
+        var info = {
+          map: $('#map-name').val()
+        };
+
+        client.createGame($('#game-type').val(), $('#game-name').val(), info);
+      });
+
+      $('#join-game').click(function() {
+        client.joinGame($('#game-name').val());
+      });
+
+      $('#buffered-message').click(function() {
+        client.bufferedMessage(JSON.parse($('#payload').val()));
+      });
+
+      $('#client-message').click(function() {
+        client.clientMessage($('#content-type').val(), $('#payload').val());
+      });
+
+      $('#ping').click(function() {
+        client.ping();
+      });
+
+      $('#respond-to-ping').click(function() {
+        client.setRespondToPing($('#respond-to-ping').is(':checked'));
+      });
+
+      $('#start-game').click(function() {
+        client.startGame();
+      });
+
+      $('#close-game').click(function() {
+        client.closeGame();
+      });
+
+      $('#leave-game').click(function() {
+        client.leaveGame();
+      });
+
+      $('#set-player-storage').click(function() {
+        client.setPlayerStorage($('#game-name').val(), JSON.parse($('#player-storage').val()));
+      });
+
+      $('#get-player-storage').click(function() {
+        client.getPlayerStorage($('#game-name').val());
+      });
+
+      $('#set-map-storage').click(function() {
+        client.setMapStorage($('#game-name').val(), $('#map-name').val(), JSON.parse($('#map-storage').val()));
+      });
+
+      $('#get-map-storage').click(function() {
+        client.getMapStorage($('#game-name').val(), $('#map-name').val());
+      });
+
+      $('#verify-email').click(function() {
+        client.verifyEmail($('#email').val(), $('#token').val());
+      });
+
+      $('#send-log-message').click(function() {
+        client.logMessage(parseInt($('#log-level').val()), $('#log-message').val());
+      });
+
+      $('#malformed-packet').click(function() {
+        client.malformedPacket();
+      });
+
+      $('#reset-password').click(function() {
+        client.resetPassword($('#email').val(), $('#nickname').val());
+      });
+
+      $('#set-new-password').click(function() {
+        client.setNewPassword($('#email').val(), $('#token').val(), $('#password').val());
+      });
+
+      $('#send-chat-message').click(function() {
+        client.sendChatMessage($('#chat-message').val());
+      });
+
+      $('#get-takers').click(function() {
+        client.getTakers();
+      });
+
+      $('#loading-complete').click(function() {
+        client.loadingComplete();
+      });
+
+      $('#unregister').click(function() {
+        client.unregister($('#email').val(), $('#password').val());
+      });
+
+      client.onOpen = function(event) {
+        console.log("Connected");
+      }
+    }
+  </script>
+
+  <form>
+    <fieldset>
+      <label for="url">Nickname</label>
+      <input type="text" id="url" value="ws://localhost:8080/GameDev-Server/websocket"/>
+    </fieldset>
+    <fieldset>
+      <label for="nickname">Nickname</label>
+      <input type="text" id="nickname" value="Moe"/>
+    </fieldset>
+    <fieldset>
+      <label for="email">E-Mail</label>
+      <input type="text" id="email" value="mkammere@hm.edu"/>
+    </fieldset>
+    <fieldset>
+      <label for="password">Password</label>
+      <input type="password" id="password" value="eom"/>
+    </fieldset>
+    <fieldset>
+      <label for="game-type">Game type</label>
+      <input type="text" id="game-type" value="TOY_RACER"/>
+    </fieldset>
+    <fieldset>
+      <label for="game-name">Game name</label>
+      <input type="text" id="game-name" value="Game #1"/>
+    </fieldset>
+    <fieldset>
+      <label for="map-name">Map name</label>
+      <input type="text" id="map-name" value="Vice City"/>
+    </fieldset>
+    <fieldset>
+      <label for="content-type">Content-Type</label>
+      <input type="text" id="content-type" value="BAZ"/>
+    </fieldset>
+    <fieldset>
+      <label for="payload">Payload</label>
+      <input type="text" id="payload" value="{&quot;foobar&quot;: true}"/>
+    </fieldset>
+    <fieldset>
+      <label for="player-storage">Player storage</label>
+      <input type="text" id="player-storage" value="{}"/>
+    </fieldset>
+    <fieldset>
+      <label for="map-storage">Map storage</label>
+      <input type="text" id="map-storage" value="{}"/>
+    </fieldset>
+    <fieldset>
+      <label for="log-level">Log level</label>
+      <input type="number" step="1" id="log-level" value="1"/>
+    </fieldset>
+    <fieldset>
+      <label for="log-message">Log message</label>
+      <input type="text" id="log-message" value="Blafoo"/>
+    </fieldset>
+    <fieldset>
+      <label for="token">Verify token</label>
+      <input type="text" id="token" value="12345"/>
+    </fieldset>
+    <fieldset>
+      <label for="chat-message">Chat message</label>
+      <input type="text" id="chat-message" value="Hello, World!"/>
+    </fieldset>
+    <fieldset>
+      <label for="respond-to-ping">Respond to pings</label>
+      <input type="checkbox" id="respond-to-ping" checked="checked"/>
+    </fieldset>
+  </form>
+
+  <button id="connect">Connect</button>
+  <button id="disconnect">Disconnect</button>
+  <button id="register">Register</button>
+  <button id="login">Login</button>
+  <button id="create-game">Create game</button>
+  <button id="join-game">Join game</button>
+  <button id="start-game">Start game</button>
+  <button id="close-game">Close game</button>
+  <button id="leave-game">Leave game</button>
+  <button id="buffered-message">Buffered message</button>
+  <button id="client-message">Client message</button>
+  <button id="ping">Ping</button>
+  <button id="set-player-storage">Set player storage</button>
+  <button id="get-player-storage">Get player storage</button>
+  <button id="set-map-storage">Set map storage</button>
+  <button id="get-map-storage">Get map storage</button>
+  <button id="send-log-message">Log message</button>
+  <button id="verify-email">Verify email</button>
+  <button id="malformed-packet">Malformed packet</button>
+  <button id="reset-password">Reset password</button>
+  <button id="set-new-password">Set new password</button>
+  <button id="send-chat-message">Chat message</button>
+  <button id="get-takers">Get takers</button>
+  <button id="loading-complete">Loading complete</button>
+  <button id="unregister">Unregister</button>
+</body>
+</html>
